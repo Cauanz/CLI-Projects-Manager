@@ -1,6 +1,6 @@
 import sqlite3 from "sqlite3";
 
-export const db = new sqlite3.Database("./projects");
+export const db = new sqlite3.Database("projects.db");
 
 db.exec(`
     CREATE TABLE IF NOT EXISTS projects (

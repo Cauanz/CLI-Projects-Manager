@@ -3,7 +3,6 @@ import { execute } from "./execute";
 
 type projectData = {
   name: string;
-  status: string;
   color: string;
 };
 
@@ -12,10 +11,10 @@ type projectData = {
  * @param {Object} data - json object, data = {name,status,color}
  *
  */
-export const addToProjects = async (data: projectData) => {
-  const sql = `INSERT INTO projects(name, status, color) VALUES(?, ?, ?)`;
+export const addToProjects = async (name: string, color: string) => {
+  const sql = `INSERT INTO projects(name, color) VALUES(?, ?)`;
   try {
-    await execute(db, sql, [data.name, data.status, data.color]);
+    await execute(db, sql, [name, color]);
   } catch (error) {
     throw error;
   }

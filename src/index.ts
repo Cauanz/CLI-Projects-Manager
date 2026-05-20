@@ -2,6 +2,7 @@
 import { defineCommand, runMain } from "citty";
 import { db } from "./db/db.ts";
 import { drawWelcome } from "./ui/welcome.ts";
+import { createProject, getProjects } from "./commands/project.ts";
 
 const main = defineCommand({
   meta: {
@@ -13,6 +14,15 @@ const main = defineCommand({
     drawWelcome();
   },
   subCommands: {
+    newp: defineCommand({
+      meta: {
+        description: "Create a new project",
+      },
+      run({ args }) {
+        console.log("Creating a new project " + args._);
+        createProject(args._);
+      },
+    }),
     add: defineCommand({
       meta: {
         description: "Add a new task to the selected project",
@@ -23,6 +33,14 @@ const main = defineCommand({
     }),
     remove: defineCommand({}),
     list: {},
+    listp: defineCommand({
+      meta: {
+        description: "List all projects",
+      },
+      run({ args }) {
+        getProjects();
+      },
+    }),
   },
 });
 

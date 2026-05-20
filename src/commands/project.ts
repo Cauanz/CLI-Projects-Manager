@@ -4,9 +4,20 @@ import { db } from "../db/db";
 import { addToProjects } from "../db/project";
 
 //CREATE PROJECT
-function createProject(data) {
+//* APARENTEMENTE JÁ FUNCIONANDO
+export function createProject(data) {
   //TODO - ADICIONAR VALIDAÇÕES ANTES DE ENVIAR AO DB
-  let newProject = addToProjects(data);
+
+  const name = data[0];
+  const color = data[1];
+
+  console.log(name, color);
+
+  if (!name || !color) {
+    return;
+  }
+
+  let newProject = addToProjects(name, color);
 }
 
 //EDIT PROJECT
@@ -15,13 +26,13 @@ function createProject(data) {
 
 //LIST PROJECTS
 export function getProjects() {
-  // TODO - NÃO SEI SE ESTÁ FUNCIONANDO PORQUE AINDA NÃO TEM NENHUM PROJECT
-  //TODO - PAREI AQUI FAZENDO A LIST PARA ADICIONAR NOVA TASK MAS PRECISAMOS DE PROJECTS FUNCIONANDO PRIMEIRO
-  let projects = db.all("SELECT * FROM projects");
-  console.log(projects);
-  db.close();
-  return;
+  return new Promise((resolve, reject) => {
+    db.all("SELECT * FROM projects", (err, projects) => {
+      if (err) return reject(err);
+      console.log(projects);
+      resolve(projects);
+    });
+  });
 }
 
 //LIST PROJECT (TASKS ETC...)
-getProjects();
