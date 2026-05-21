@@ -2,9 +2,13 @@
 import { defineCommand, runMain } from "citty";
 import { db } from "./db/db.ts";
 import { drawWelcome } from "./ui/welcome.ts";
-import { createProject, getProjects } from "./commands/project.ts";
-import { answer } from "./commands/select.ts";
-import { createTask } from "./commands/task.ts";
+import {
+  createProject,
+  getProjects,
+  listProjects,
+} from "./commands/project-controller.ts";
+import { selectProject } from "./commands/select.ts";
+import { createTask } from "./commands/task-controller.ts";
 
 const main = defineCommand({
   meta: {
@@ -29,19 +33,20 @@ const main = defineCommand({
       meta: {
         description: "Add a new task to the selected project",
       },
-      run({ args }) {
-        const project_id = answer;
+      async run({ args }) {
+        const project_id = await selectProject();
         console.log("Adding a new task " + args._);
         createTask(project_id, args._);
       },
     }),
+    removep: defineCommand({}),
     remove: defineCommand({}),
     list: defineCommand({
       meta: {
         description: "List all tasks",
       },
       run({ args }) {
-        // getProjects();
+        
       },
     }),
     listfromp: defineCommand({
@@ -56,8 +61,8 @@ const main = defineCommand({
       meta: {
         description: "List all projects",
       },
-      run({ args }) {
-        getProjects();
+      run() {
+        listProjects();
       },
     }),
   },

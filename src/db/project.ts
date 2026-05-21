@@ -29,13 +29,12 @@ export const getProjectsFromDB = () => {
   });
 };
 
-//!NÃO PRONTA
-//TODO - TERMINAR ESSA FUNÇÃO PARA PODER USAR NO CREATETASK PORQUE PRECISAMOS DO PROJECT PARA ADICIONAR A NOVA TASK A ELE
-export const getProjectFromDB = (id) => {
-  new Promise((resolve, reject) => {
-    db.get("SELECT * FROM projects WHERE id === ?", (err, projects) => {
-      if (err) return reject(err);
-      resolve(projects);
-    });
-  });
-};
+
+// export const getProjectFromDB = (id) => {
+//   new Promise((resolve, reject) => {
+//     db.get("SELECT * FROM projects WHERE id === ?", (err, projects) => {
+//       if (err) return reject(err);
+//       resolve(projects);
+//     });
+//   });
+// };

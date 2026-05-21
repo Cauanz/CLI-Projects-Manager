@@ -1,25 +1,30 @@
 //FUNÇÕES RELACIONADAS A TASKS DE PROJETOS
-
+import * as chrono from "chrono-node";
 import { db } from "../db/db";
 import { addToProjects } from "../db/project";
 import { generateTable } from "../ui/table";
+import { createTaskOnDB, getTasksFromProjectFromDB } from "../db/task";
 
 //CREATE TASK
 export function createTask(project_id, data) {
   //TODO - ADICIONAR VALIDAÇÕES ANTES DE ENVIAR AO DB
 
-  const project = getProject(project_id);
+  const title = data[0];
+  const due_date = data.slice(1).join(" ");
 
-  const name = data[0];
-  const color = data[1];
-
-  console.log(name, color);
-
-  if (!name || !color) {
+  if (!title || !due_date) {
     return;
   }
 
-  let newProject = addToProjects(name, color);
+  // const formatted_date = chrono.pt.parse(due_date);
+
+  console.log(title, due_date);
+
+  if (!title || !due_date) {
+    return;
+  }
+
+  let newTask = createTaskOnDB(title, project_id, due_date);
 }
 
 //EDIT TASK
@@ -51,3 +56,22 @@ export function getTasks() {
 }
 
 //LIST TASKS FROM PROJECT X
+export function getTasks(project_id) {
+  const tasks = getTasksFromProjectFromDB(project_id);
+  
+  generateTable(
+    "t",
+    [
+      "id",
+      "project Id",
+      "title",
+      "status",
+      "priority",
+      "due date",
+      "created_at",
+      "done_at",
+    ],
+    tasks,
+  );
+  // return getTasksOfProjectFromDB;
+}
