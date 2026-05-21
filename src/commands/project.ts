@@ -1,7 +1,8 @@
 //FUNÇÕES RELACIONADAS A PROJETOS
 
 import { db } from "../db/db";
-import { addToProjects } from "../db/project";
+import { addToProjects, getProjectsFromDB } from "../db/project";
+import { generateTable } from "../ui/table";
 
 //CREATE PROJECT
 //* APARENTEMENTE JÁ FUNCIONANDO
@@ -24,12 +25,26 @@ export function createProject(data) {
 
 //REMOVE PROJECT
 
-//LIST PROJECTS
+//GET PROJECTS
 export function getProjects() {
+  return getProjectsFromDB();
+}
+
+//GET PROJECT
+export function getProject(id) {
+  return getProjectsFromDB(id);
+}
+
+//LIST PROJECTS
+export function listProjects() {
   return new Promise((resolve, reject) => {
     db.all("SELECT * FROM projects", (err, projects) => {
       if (err) return reject(err);
-      console.log(projects);
+      generateTable(
+        "p",
+        ["id", "name", "status", "color", "created_at"],
+        projects,
+      );
       resolve(projects);
     });
   });
