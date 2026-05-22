@@ -1,6 +1,6 @@
 import { select, Separator } from "@inquirer/prompts";
 import { getProjects } from "./project-controller";
-import { getTasksFromProject } from "./task-controller";
+import { getTask, getTasksFromProject } from "./task-controller";
 
 export async function selectProject() {
   const projects = await getProjects();
@@ -20,7 +20,6 @@ export async function selectProject() {
 
 export async function selectTask(project_id) {
   const tasks = await getTasksFromProject(project_id);
-  console.log(tasks);
 
   const choices = tasks.map((task) => ({
     name: task.title,
@@ -33,29 +32,35 @@ export async function selectTask(project_id) {
   });
 }
 
-export async function selectProperty() {
-  // TODO - TALVEZ ADICIONAR UM CAMPO EM CINZA COM CURRENT VALUE DE CADA CAMPO PARA DIMINUIR CONSULTAS
+export async function selectProperty(task_id) {
+  const task = await getTask(task_id);
+
   return select({
     message: "Select a task:",
     choices: [
       {
         name: "title",
+        description: `current value: ${task.title}`,
         value: "title",
       },
       {
         name: "status",
+        description: `current value: ${task.status}`,
         value: "status",
       },
       {
         name: "priority",
+        description: `current value: ${task.priority}`,
         value: "priority",
       },
       {
         name: "due date",
+        description: `current value: ${task.due_date}`,
         value: "due_date",
       },
       {
         name: "done at",
+        description: `current value: ${task.done_at}`,
         value: "done_at",
       },
     ],

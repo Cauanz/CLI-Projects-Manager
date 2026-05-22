@@ -5,12 +5,14 @@ import { addToProjects } from "../db/project";
 import { generateTable } from "../ui/table";
 import {
   createTaskOnDB,
+  editTask as editTaskOnDB,
+  getTaskFromDB,
   getTasksFromDB,
   getTasksOfProjectFromDB,
 } from "../db/task";
 
 //CREATE TASK
-export function createTask(project_id, data) {
+export function createTask(project_id: string, data: string[]) {
   //TODO - ADICIONAR VALIDAÇÕES ANTES DE ENVIAR AO DB
 
   const title = data[0];
@@ -28,9 +30,21 @@ export function createTask(project_id, data) {
 }
 
 //EDIT TASK
-
+export async function editTask(
+  project_id: string,
+  task_id: string,
+  field: string,
+  new_value: string,
+) {
+  return editTaskOnDB(project_id, task_id, field, new_value);
+}
 
 //REMOVE TASK
+
+//GET TASK
+export async function getTask(task_id: string) {
+  return await getTaskFromDB(task_id);
+}
 
 //GET TASKS
 export async function getTasksFromProject(project_id: string) {

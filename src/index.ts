@@ -14,6 +14,7 @@ import {
 } from "./commands/select.ts";
 import {
   createTask,
+  editTask,
   listTasks,
   listTasksFromProject,
 } from "./commands/task-controller.ts";
@@ -55,10 +56,11 @@ const main = defineCommand({
       async run({ args }) {
         const project_id = await selectProject();
         const task = await selectTask(project_id);
-        const property = await selectProperty();
+        const property = await selectProperty(task);
         const newValue = await input({
           message: `Enter the new value for ${property}`,
         });
+        await editTask(project_id, task, property, newValue);
       },
     }),
     removep: defineCommand({}),
