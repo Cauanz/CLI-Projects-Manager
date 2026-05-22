@@ -7,8 +7,17 @@ import {
   getProjects,
   listProjects,
 } from "./commands/project-controller.ts";
-import { selectProject } from "./commands/select.ts";
-import { createTask } from "./commands/task-controller.ts";
+import {
+  selectProject,
+  selectProperty,
+  selectTask,
+} from "./commands/select.ts";
+import {
+  createTask,
+  listTasks,
+  listTasksFromProject,
+} from "./commands/task-controller.ts";
+import { input } from "@inquirer/prompts";
 
 const main = defineCommand({
   meta: {
@@ -39,22 +48,36 @@ const main = defineCommand({
         createTask(project_id, args._);
       },
     }),
+    edit: defineCommand({
+      meta: {
+        description: "Edit a single task",
+      },
+      async run({ args }) {
+        const project_id = await selectProject();
+        const task = await selectTask(project_id);
+        const property = await selectProperty();
+        const newValue = await input({
+          message: `Enter the new value for ${property}`,
+        });
+      },
+    }),
     removep: defineCommand({}),
     remove: defineCommand({}),
     list: defineCommand({
       meta: {
         description: "List all tasks",
       },
-      run({ args }) {
-        
+      run() {
+        listTasks();
       },
     }),
     listfromp: defineCommand({
       meta: {
         description: "List all tasks from one project",
       },
-      run({ args }) {
-        // getTasksFromProject(args._);
+      async run({ args }) {
+        const project_id = await selectProject();
+        listTasksFromProject(project_id);
       },
     }),
     listp: defineCommand({

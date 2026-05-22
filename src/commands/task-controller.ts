@@ -3,7 +3,11 @@ import * as chrono from "chrono-node";
 import { db } from "../db/db";
 import { addToProjects } from "../db/project";
 import { generateTable } from "../ui/table";
-import { createTaskOnDB, getTasksFromProjectFromDB } from "../db/task";
+import {
+  createTaskOnDB,
+  getTasksFromDB,
+  getTasksOfProjectFromDB,
+} from "../db/task";
 
 //CREATE TASK
 export function createTask(project_id, data) {
@@ -20,45 +24,23 @@ export function createTask(project_id, data) {
 
   console.log(title, due_date);
 
-  if (!title || !due_date) {
-    return;
-  }
-
   let newTask = createTaskOnDB(title, project_id, due_date);
 }
 
 //EDIT TASK
 
+
 //REMOVE TASK
 
-//LIST TASKS
-export function getTasks() {
-  return new Promise((resolve, reject) => {
-    db.all("SELECT * FROM tasks", (err, tasks) => {
-      if (err) return reject(err);
-      generateTable(
-        "t",
-        [
-          "id",
-          "project Id",
-          "title",
-          "status",
-          "priority",
-          "due date",
-          "created_at",
-          "done_at",
-        ],
-        tasks,
-      );
-      resolve(tasks);
-    });
-  });
+//GET TASKS
+export async function getTasksFromProject(project_id: string) {
+  return await getTasksOfProjectFromDB(project_id);
 }
 
-//LIST TASKS FROM PROJECT X
-export function getTasks(project_id) {
-  const tasks = getTasksFromProjectFromDB(project_id);
-  
+//LIST TASKS
+export async function listTasks() {
+  const tasks: unknown[] = await getTasksFromDB();
+
   generateTable(
     "t",
     [
@@ -73,5 +55,23 @@ export function getTasks(project_id) {
     ],
     tasks,
   );
-  // return getTasksOfProjectFromDB;
+}
+
+//LIST TASKS FROM PROJECT X
+export async function listTasksFromProject(project_id: string) {
+  const tasks: unknown[] = await getTasksOfProjectFromDB(project_id);
+  generateTable(
+    "t",
+    [
+      "id",
+      "project Id",
+      "title",
+      "status",
+      "priority",
+      "due date",
+      "created_at",
+      "done_at",
+    ],
+    tasks,
+  );
 }

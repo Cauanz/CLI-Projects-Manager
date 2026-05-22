@@ -1,11 +1,14 @@
 //FUNÇÕES RELACIONADAS A PROJETOS
 
 import { db } from "../db/db";
-import { addToProjects, getProjectsFromDB } from "../db/project";
+import {
+  addToProjects,
+  getProjectFromDB,
+  getProjectsFromDB,
+} from "../db/project";
 import { generateTable } from "../ui/table";
 
 //CREATE PROJECT
-//* APARENTEMENTE JÁ FUNCIONANDO
 export function createProject(data) {
   //TODO - ADICIONAR VALIDAÇÕES ANTES DE ENVIAR AO DB
 
@@ -32,7 +35,7 @@ export function getProjects() {
 
 //GET PROJECT
 export function getProject(id) {
-  return getProjectsFromDB(id);
+  return getProjectFromDB(id);
 }
 
 //LIST PROJECTS

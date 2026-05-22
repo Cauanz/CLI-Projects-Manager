@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { execute } from "./execute";
+import { execute, fetchAll, fetchFirst } from "./utils";
 
 //CREATE TASK / ADD TO PROJECT
 export const createTaskOnDB = async (
@@ -15,12 +15,28 @@ export const createTaskOnDB = async (
   }
 };
 
-// TODO - TERMINAR ISSO PS: NÃO SEI COMO FAZ A QUERY
-export const getTasksOfProjectFromDB = async () => {
-  return new Promise((resolve, reject) => {
-    db.all("SELECT * FROM tasks WHERE project_id === ", (err, tasks) => {
-      if (err) return reject(err);
-      resolve(tasks);
-    });
-  });
+export const getTasksOfProjectFromDB = async (project_id: string) => {
+  const sql = `SELECT * FROM tasks WHERE project_id = ?`;
+
+  try {
+    const tasks = await fetchAll(db, sql, project_id);
+    return tasks;
+  } catch (error) {
+    throw error;
+  } finally {
+    db.close();
+  }
+};
+
+export const getTasksFromDB = async () => {
+  const sql = `SELECT * FROM tasks`;
+
+  try {
+    const tasks = await fetchAll(db, sql);
+    return tasks;
+  } catch (error) {
+    throw error;
+  } finally {
+    db.close();
+  }
 };
