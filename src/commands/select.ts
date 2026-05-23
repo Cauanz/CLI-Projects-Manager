@@ -1,12 +1,20 @@
-import { select, Separator } from "@inquirer/prompts";
+import { select } from "@inquirer/prompts";
 import { getProjects } from "./project-controller";
 import { getTask, getTasksFromProject } from "./task-controller";
 
+type ProjectType = {
+  id: number;
+  name: string;
+  status: string;
+  color: string;
+  created_at: string;
+};
+
 export async function selectProject() {
-  const projects = await getProjects();
+  const projects: ProjectType[] = await getProjects();
 
   const choices = projects
-    .filter((project) => project.status === "active")
+    .filter((project: ProjectType) => project.status === "active")
     .map((project) => ({
       name: project.name,
       value: project.id,
@@ -18,7 +26,7 @@ export async function selectProject() {
   });
 }
 
-export async function selectTask(project_id) {
+export async function selectTask(project_id: string) {
   const tasks = await getTasksFromProject(project_id);
 
   const choices = tasks.map((task) => ({
@@ -32,7 +40,7 @@ export async function selectTask(project_id) {
   });
 }
 
-export async function selectProperty(task_id) {
+export async function selectProperty(task_id: string) {
   const task = await getTask(task_id);
 
   return select({

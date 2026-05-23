@@ -24,8 +24,6 @@ export function createTask(project_id: string, data: string[]) {
 
   // const formatted_date = chrono.pt.parse(due_date);
 
-  console.log(title, due_date);
-
   let newTask = createTaskOnDB(title, project_id, due_date);
 }
 

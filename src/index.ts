@@ -1,10 +1,8 @@
 #!/usr/bin/env node
 import { defineCommand, runMain } from "citty";
-import { db } from "./db/db.ts";
 import { drawWelcome } from "./ui/welcome.ts";
 import {
   createProject,
-  getProjects,
   listProjects,
 } from "./commands/project-controller.ts";
 import {
