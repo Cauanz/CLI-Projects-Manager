@@ -46,3 +46,16 @@ export const getProjectFromDB = async (id: string) => {
     throw error;
   }
 };
+
+export const removeProjectFromDB = async (project_id) => {
+  const sql = `DELETE FROM projects WHERE id = ?`;
+  const sql2 = `DELETE FROM tasks WHERE project_id = ?`;
+
+  try {
+    const project = await execute(db, sql, [project_id]);
+    const tasks = await execute(db, sql2, [project_id]);
+    return;
+  } catch (error) {
+    throw error;
+  }
+};

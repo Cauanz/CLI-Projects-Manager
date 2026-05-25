@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 import { defineCommand, runMain } from "citty";
 import { drawWelcome } from "./ui/welcome.ts";
-import { createProject, listProjects } from "./commands/project-controller.ts";
+import {
+  createProject,
+  listProjects,
+  removeProject,
+} from "./commands/project-controller.ts";
 import {
   selectChange,
   selectProject,
@@ -13,8 +17,11 @@ import {
   editTask,
   listTasks,
   listTasksFromProject,
+  removeTask,
 } from "./commands/task-controller.ts";
-import { input } from "@inquirer/prompts";
+import chalk from "chalk";
+
+// TODO - TERMINAR DE ADICIONAR VALIDAÇÕES, VERIFICAÇÕES, CORES, ERROS ETC... E APRENDER A COMPILAR E TRANSFORMAR ISSO EM ALGO USAVEL
 
 const main = defineCommand({
   meta: {
@@ -31,8 +38,17 @@ const main = defineCommand({
         description: "Create a new project",
       },
       run({ args }) {
-        console.log("Creating a new project " + args._);
-        createProject(args._);
+        if (args._.length <= 0) {
+          console.log(
+            chalk.bold.bgRed(
+              "You need to insert [newp] <project name> <color>",
+            ),
+          );
+          return;
+        } else {
+          console.log("Creating a new project " + args._);
+          createProject(args._);
+        }
       },
     }),
     add: defineCommand({
@@ -40,16 +56,23 @@ const main = defineCommand({
         description: "Add a new task to the selected project",
       },
       async run({ args }) {
-        const project_id = await selectProject();
-        console.log("Adding a new task " + args._);
-        createTask(project_id, args._);
+        if (args._.length <= 0) {
+          console.log(
+            chalk.bold.bgRed("You need to insert [add] <title> <due date>"),
+          );
+          return;
+        } else {
+          const project_id = await selectProject();
+          console.log("Adding a new task " + args._);
+          createTask(project_id, args._);
+        }
       },
     }),
     edit: defineCommand({
       meta: {
         description: "Edit a single task",
       },
-      async run({ args }) {
+      async run() {
         const project_id = await selectProject();
         const task = await selectTask(project_id);
         const property = await selectProperty(task);
@@ -57,9 +80,24 @@ const main = defineCommand({
         await editTask(project_id, task, property, newValue);
       },
     }),
-    removep: defineCommand({}),
+    removep: defineCommand({
+      meta: {
+        description: "Remove a project and all its tasks",
+      },
+      async run() {
+        const project_id = await selectProject();
+        await removeProject(project_id);
+      },
+    }),
     remove: defineCommand({
-      // TODO - IMPLEMENTAR O REMOVE TASK (FUNÇÕES JÁ PRONTAS)
+      meta: {
+        description: "Remove a task",
+      },
+      async run() {
+        const project_id = await selectProject();
+        const task_id = await selectTask(project_id);
+        await removeTask(task_id, project_id);
+      },
     }),
     list: defineCommand({
       meta: {
@@ -73,7 +111,7 @@ const main = defineCommand({
       meta: {
         description: "List all tasks from one project",
       },
-      async run({ args }) {
+      async run() {
         const project_id = await selectProject();
         listTasksFromProject(project_id);
       },

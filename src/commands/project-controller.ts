@@ -5,6 +5,7 @@ import {
   addToProjects,
   getProjectFromDB,
   getProjectsFromDB,
+  removeProjectFromDB,
 } from "../db/project";
 import { generateTable } from "../ui/table";
 
@@ -27,6 +28,9 @@ export function createProject(data: string[]) {
 //EDIT PROJECT
 
 //REMOVE PROJECT
+export function removeProject(project_id) {
+  return removeProjectFromDB(project_id);
+}
 
 //GET PROJECTS
 export function getProjects(): Promise<any[]> {
