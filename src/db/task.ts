@@ -62,3 +62,13 @@ export const editTask = async (
     throw error;
   }
 };
+
+export const removeTaskFromDB = async (task_id: string, project_id: string) => {
+  const sql = `DELETE FROM tasks WHERE task_id = ? AND project_id = ?`;
+
+  try {
+    await execute(db, sql, [task_id, project_id]);
+  } catch (error) {
+    throw error;
+  }
+};

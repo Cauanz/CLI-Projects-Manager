@@ -1,4 +1,4 @@
-import { select } from "@inquirer/prompts";
+import { input, select } from "@inquirer/prompts";
 import { getProjects } from "./project-controller";
 import { getTask, getTasksFromProject } from "./task-controller";
 
@@ -72,5 +72,61 @@ export async function selectProperty(task_id: string) {
         value: "done_at",
       },
     ],
+  });
+}
+
+export async function selectChange(property: string) {
+  let choices: { name: string; value: string }[] = [];
+
+  switch (property) {
+    case "title":
+      return input({
+        message: `Enter the new value for ${property}`,
+      });
+    case "status":
+      choices = [
+        {
+          name: "todo",
+          value: "todo",
+        },
+        {
+          name: "doing",
+          value: "doing",
+        },
+        {
+          name: "done",
+          value: "done",
+        },
+      ];
+      break;
+    case "priority":
+      choices = [
+        {
+          name: "low",
+          value: "low",
+        },
+        {
+          name: "medium",
+          value: "medium",
+        },
+        {
+          name: "high",
+          value: "high",
+        },
+      ];
+      break;
+    case "done_at":
+      return select({
+        message: "Have you finished the task?",
+        choices: [
+          { name: "Yes", value: new Date().toLocaleString() },
+          { name: "No", value: "" },
+        ],
+      });
+  }
+
+  return select({
+    message: `Select a new ${property}`,
+    choices: choices,
   });
 }

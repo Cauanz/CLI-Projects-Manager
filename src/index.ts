@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 import { defineCommand, runMain } from "citty";
 import { drawWelcome } from "./ui/welcome.ts";
+import { createProject, listProjects } from "./commands/project-controller.ts";
 import {
-  createProject,
-  listProjects,
-} from "./commands/project-controller.ts";
-import {
+  selectChange,
   selectProject,
   selectProperty,
   selectTask,
@@ -55,14 +53,14 @@ const main = defineCommand({
         const project_id = await selectProject();
         const task = await selectTask(project_id);
         const property = await selectProperty(task);
-        const newValue = await input({
-          message: `Enter the new value for ${property}`,
-        });
+        const newValue = await selectChange(property);
         await editTask(project_id, task, property, newValue);
       },
     }),
     removep: defineCommand({}),
-    remove: defineCommand({}),
+    remove: defineCommand({
+      // TODO - IMPLEMENTAR O REMOVE TASK (FUNÇÕES JÁ PRONTAS)
+    }),
     list: defineCommand({
       meta: {
         description: "List all tasks",

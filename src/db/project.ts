@@ -27,20 +27,21 @@ export const addToProjects = async (name: string, color: string) => {
  *
  * @returns Promise<unknown[]>
  */
-export const getProjectsFromDB = () => {
-  return new Promise((resolve, reject) => {
-    db.all("SELECT * FROM projects", (err, projects) => {
+export const getProjectsFromDB = (): Promise<any[]> => {
+  return new Promise<any[]>((resolve, reject) => {
+    db.all("SELECT * FROM projects", (err, projects: any[]) => {
       if (err) return reject(err);
       resolve(projects);
     });
   });
 };
 
-export const getProjectFromDB = async (id) => {
+export const getProjectFromDB = async (id: string) => {
   const sql = `SELECT * FROM projects WHERE id === ?`;
 
   try {
-    const project = await fetchFirst(db, sql, id);
+    const project = await fetchFirst(db, sql, [id]);
+    return project;
   } catch (error) {
     throw error;
   }

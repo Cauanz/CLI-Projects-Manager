@@ -9,7 +9,7 @@ import {
 import { generateTable } from "../ui/table";
 
 //CREATE PROJECT
-export function createProject(data) {
+export function createProject(data: string[]) {
   //TODO - ADICIONAR VALIDAÇÕES ANTES DE ENVIAR AO DB
 
   const name = data[0];
@@ -29,12 +29,12 @@ export function createProject(data) {
 //REMOVE PROJECT
 
 //GET PROJECTS
-export function getProjects() {
+export function getProjects(): Promise<any[]> {
   return getProjectsFromDB();
 }
 
 //GET PROJECT
-export function getProject(id) {
+export function getProject(id: string) {
   return getProjectFromDB(id);
 }
 

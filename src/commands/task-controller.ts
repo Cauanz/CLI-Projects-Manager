@@ -9,6 +9,7 @@ import {
   getTaskFromDB,
   getTasksFromDB,
   getTasksOfProjectFromDB,
+  removeTaskFromDB,
 } from "../db/task";
 
 //CREATE TASK
@@ -38,6 +39,9 @@ export async function editTask(
 }
 
 //REMOVE TASK
+export const removeTask = async (task_id, project_id) => {
+  return await removeTaskFromDB(task_id, project_id);
+};
 
 //GET TASK
 export async function getTask(task_id: string) {
