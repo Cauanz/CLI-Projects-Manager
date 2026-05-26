@@ -1,8 +1,7 @@
 //FUNÇÕES RELACIONADAS A PROJETOS
-
-import { db } from "../db/db";
 import {
   addToProjects,
+  editProjectOnDB,
   getProjectFromDB,
   getProjectsFromDB,
   removeProjectFromDB,
@@ -26,9 +25,16 @@ export function createProject(data: string[]) {
 }
 
 //EDIT PROJECT
+export function editProject(
+  project_id: string,
+  field: string,
+  new_value: string,
+) {
+  return editProjectOnDB(project_id, field, new_value);
+}
 
 //REMOVE PROJECT
-export function removeProject(project_id) {
+export function removeProject(project_id: string) {
   return removeProjectFromDB(project_id);
 }
 
@@ -43,18 +49,10 @@ export function getProject(id: string) {
 }
 
 //LIST PROJECTS
-export function listProjects() {
-  return new Promise((resolve, reject) => {
-    db.all("SELECT * FROM projects", (err, projects) => {
-      if (err) return reject(err);
-      generateTable(
-        "p",
-        ["id", "name", "status", "color", "created_at"],
-        projects,
-      );
-      resolve(projects);
-    });
-  });
+export async function listProjects() {
+  const projects = await getProjectsFromDB();
+
+  generateTable("p", ["id", "name", "status", "color", "created_at"], projects);
 }
 
 //LIST PROJECT (TASKS ETC...)

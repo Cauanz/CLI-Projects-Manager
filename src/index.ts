@@ -3,6 +3,7 @@ import { defineCommand, runMain } from "citty";
 import { drawWelcome } from "./ui/welcome.ts";
 import {
   createProject,
+  editProject,
   listProjects,
   removeProject,
 } from "./commands/project-controller.ts";
@@ -20,6 +21,7 @@ import {
   removeTask,
 } from "./commands/task-controller.ts";
 import chalk from "chalk";
+import { confirm } from "@inquirer/prompts";
 
 // TODO - TERMINAR DE ADICIONAR VALIDAÇÕES, VERIFICAÇÕES, CORES, ERROS ETC... E APRENDER A COMPILAR E TRANSFORMAR ISSO EM ALGO USAVEL
 
@@ -75,9 +77,20 @@ const main = defineCommand({
       async run() {
         const project_id = await selectProject();
         const task = await selectTask(project_id);
-        const property = await selectProperty(task);
-        const newValue = await selectChange(property);
+        const property = await selectProperty(task, "t");
+        const newValue = await selectChange(property, "t");
         await editTask(project_id, task, property, newValue);
+      },
+    }),
+    editp: defineCommand({
+      meta: {
+        description: "Edit a project",
+      },
+      async run() {
+        const project_id = await selectProject();
+        const property = await selectProperty(project_id, "p");
+        const newValue = await selectChange(property, "p");
+        await editProject(project_id, property, newValue);
       },
     }),
     removep: defineCommand({
@@ -86,7 +99,15 @@ const main = defineCommand({
       },
       async run() {
         const project_id = await selectProject();
-        await removeProject(project_id);
+        const answer = await confirm({
+          message:
+            "Are you sure you want to delete the project and all its tasks?",
+        });
+        if (answer) {
+          await removeProject(project_id);
+        } else {
+          return;
+        }
       },
     }),
     remove: defineCommand({
@@ -96,7 +117,15 @@ const main = defineCommand({
       async run() {
         const project_id = await selectProject();
         const task_id = await selectTask(project_id);
-        await removeTask(task_id, project_id);
+
+        const answer = await confirm({
+          message: "Are you sure you want to delete this task?",
+        });
+        if (answer) {
+          await removeTask(task_id, project_id);
+        } else {
+          return;
+        }
       },
     }),
     list: defineCommand({

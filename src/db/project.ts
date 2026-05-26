@@ -36,8 +36,22 @@ export const getProjectsFromDB = (): Promise<any[]> => {
   });
 };
 
+export const editProjectOnDB = async (
+  project_id: string,
+  field: string,
+  newValue: string,
+) => {
+  const sql = `UPDATE projects SET ${field} = ? WHERE id = ?`;
+
+  try {
+    const project = await execute(db, sql, [newValue, project_id]);
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getProjectFromDB = async (id: string) => {
-  const sql = `SELECT * FROM projects WHERE id === ?`;
+  const sql = `SELECT * FROM projects WHERE id = ?`;
 
   try {
     const project = await fetchFirst(db, sql, [id]);
@@ -47,7 +61,7 @@ export const getProjectFromDB = async (id: string) => {
   }
 };
 
-export const removeProjectFromDB = async (project_id) => {
+export const removeProjectFromDB = async (project_id: string) => {
   const sql = `DELETE FROM projects WHERE id = ?`;
   const sql2 = `DELETE FROM tasks WHERE project_id = ?`;
 

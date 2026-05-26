@@ -1,7 +1,5 @@
 //FUNÇÕES RELACIONADAS A TASKS DE PROJETOS
 import * as chrono from "chrono-node";
-import { db } from "../db/db";
-import { addToProjects } from "../db/project";
 import { generateTable } from "../ui/table";
 import {
   createTaskOnDB,
@@ -39,7 +37,7 @@ export async function editTask(
 }
 
 //REMOVE TASK
-export const removeTask = async (task_id, project_id) => {
+export const removeTask = async (task_id: string, project_id: string) => {
   return await removeTaskFromDB(task_id, project_id);
 };
 
