@@ -2,15 +2,14 @@
   "name": "cli-todo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
   "bin": {
-    "clitodo": "./src/index.ts"
+    "clitodo": "./dist/index.mjs"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node ./index.ts",
-    "build": "tsc",
-    "start": "npm run build && node ./dist/index.js"
+    "dev": "tsx src/index.ts",
+    "build": "tsdown",
+    "start": "npm run build && node ./dist/index.mjs"
   },
   "keywords": [],
   "author": "",

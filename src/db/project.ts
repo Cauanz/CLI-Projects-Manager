@@ -6,11 +6,7 @@ type projectData = {
   color: string;
 };
 
-/**
- *
- * @param {Object} data - json object, data = {name,status,color}
- *
- */
+//CREATE A NEW PROJECT
 export const addToProjects = async (name: string, color: string) => {
   const sql = `INSERT INTO projects(name, color) VALUES(?, ?)`;
 
@@ -23,10 +19,7 @@ export const addToProjects = async (name: string, color: string) => {
   }
 };
 
-/**
- *
- * @returns Promise<unknown[]>
- */
+//GET ALL PROJECTS
 export const getProjectsFromDB = (): Promise<any[]> => {
   return new Promise<any[]>((resolve, reject) => {
     db.all("SELECT * FROM projects", (err, projects: any[]) => {
@@ -36,6 +29,7 @@ export const getProjectsFromDB = (): Promise<any[]> => {
   });
 };
 
+//EDIT A PROPERTY OF ONE PROJECT
 export const editProjectOnDB = async (
   project_id: string,
   field: string,
@@ -50,6 +44,7 @@ export const editProjectOnDB = async (
   }
 };
 
+//GET ONE PROJECT
 export const getProjectFromDB = async (id: string) => {
   const sql = `SELECT * FROM projects WHERE id = ?`;
 
@@ -61,6 +56,7 @@ export const getProjectFromDB = async (id: string) => {
   }
 };
 
+//REMOVE ONE PROJECT
 export const removeProjectFromDB = async (project_id: string) => {
   const sql = `DELETE FROM projects WHERE id = ?`;
   const sql2 = `DELETE FROM tasks WHERE project_id = ?`;

@@ -4,6 +4,7 @@ import { drawWelcome } from "./ui/welcome.ts";
 import {
   createProject,
   editProject,
+  listProjectAndTasks,
   listProjects,
   removeProject,
 } from "./commands/project-controller.ts";
@@ -22,8 +23,6 @@ import {
 } from "./commands/task-controller.ts";
 import chalk from "chalk";
 import { confirm } from "@inquirer/prompts";
-
-// TODO - TERMINAR DE ADICIONAR VALIDAÇÕES, VERIFICAÇÕES, CORES, ERROS ETC... E APRENDER A COMPILAR E TRANSFORMAR ISSO EM ALGO USAVEL
 
 const main = defineCommand({
   meta: {
@@ -66,7 +65,7 @@ const main = defineCommand({
         } else {
           const project_id = await selectProject();
           console.log("Adding a new task " + args._);
-          createTask(project_id, args._);
+          createTask(project_id.toString(), args._);
         }
       },
     }),
@@ -76,10 +75,10 @@ const main = defineCommand({
       },
       async run() {
         const project_id = await selectProject();
-        const task = await selectTask(project_id);
+        const task = await selectTask(project_id.toString());
         const property = await selectProperty(task, "t");
         const newValue = await selectChange(property, "t");
-        await editTask(project_id, task, property, newValue);
+        await editTask(project_id.toString(), task, property, newValue);
       },
     }),
     editp: defineCommand({
@@ -88,9 +87,9 @@ const main = defineCommand({
       },
       async run() {
         const project_id = await selectProject();
-        const property = await selectProperty(project_id, "p");
+        const property = await selectProperty(project_id.toString(), "p");
         const newValue = await selectChange(property, "p");
-        await editProject(project_id, property, newValue);
+        await editProject(project_id.toString(), property, newValue);
       },
     }),
     removep: defineCommand({
@@ -104,7 +103,7 @@ const main = defineCommand({
             "Are you sure you want to delete the project and all its tasks?",
         });
         if (answer) {
-          await removeProject(project_id);
+          await removeProject(project_id.toString());
         } else {
           return;
         }
@@ -116,13 +115,13 @@ const main = defineCommand({
       },
       async run() {
         const project_id = await selectProject();
-        const task_id = await selectTask(project_id);
+        const task_id = await selectTask(project_id.toString());
 
         const answer = await confirm({
           message: "Are you sure you want to delete this task?",
         });
         if (answer) {
-          await removeTask(task_id, project_id);
+          await removeTask(task_id, project_id.toString());
         } else {
           return;
         }
@@ -142,7 +141,7 @@ const main = defineCommand({
       },
       async run() {
         const project_id = await selectProject();
-        listTasksFromProject(project_id);
+        listTasksFromProject(project_id.toString());
       },
     }),
     listp: defineCommand({
@@ -151,6 +150,15 @@ const main = defineCommand({
       },
       run() {
         listProjects();
+      },
+    }),
+    listpt: defineCommand({
+      meta: {
+        description: "lists a project and all its tasks",
+      },
+      async run() {
+        const project_id = await selectProject();
+        listProjectAndTasks(project_id.toString());
       },
     }),
   },

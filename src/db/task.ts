@@ -15,6 +15,7 @@ export const createTaskOnDB = async (
   }
 };
 
+// GET ALL TASKS FROM ONE PROJECT
 export const getTasksOfProjectFromDB = async (project_id: string) => {
   const sql = `SELECT * FROM tasks WHERE project_id = ?`;
 
@@ -26,6 +27,7 @@ export const getTasksOfProjectFromDB = async (project_id: string) => {
   }
 };
 
+//GET ALL TASKS FROM ALL PROJECTS
 export const getTasksFromDB = async () => {
   const sql = `SELECT * FROM tasks`;
 
@@ -37,6 +39,7 @@ export const getTasksFromDB = async () => {
   }
 };
 
+//GET ONE TASK
 export const getTaskFromDB = async (task_id: string) => {
   const sql = `SELECT * FROM tasks WHERE id = ?`;
 
@@ -48,6 +51,7 @@ export const getTaskFromDB = async (task_id: string) => {
   }
 };
 
+//UPDATE A PROPERTY FROM ONE TASK
 export const editTask = async (
   project_id: string,
   task_id: string,
@@ -63,6 +67,7 @@ export const editTask = async (
   }
 };
 
+//REMOVE ONE TASK
 export const removeTaskFromDB = async (task_id: string, project_id: string) => {
   const sql = `DELETE FROM tasks WHERE id = ? AND project_id = ?`;
 

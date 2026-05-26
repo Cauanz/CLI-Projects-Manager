@@ -1,4 +1,5 @@
 //FUNÇÕES RELACIONADAS A PROJETOS
+import chalk from "chalk";
 import {
   addToProjects,
   editProjectOnDB,
@@ -7,6 +8,7 @@ import {
   removeProjectFromDB,
 } from "../db/project";
 import { generateTable } from "../ui/table";
+import { getTasksFromProject } from "./task-controller";
 
 //CREATE PROJECT
 export function createProject(data: string[]) {
@@ -56,3 +58,30 @@ export async function listProjects() {
 }
 
 //LIST PROJECT (TASKS ETC...)
+export async function listProjectAndTasks(project_id: string) {
+  const project = await getProject(project_id);
+  const tasks = await getTasksFromProject(project_id);
+
+  console.log(chalk.bgGreen("Project:"));
+  generateTable(
+    "p",
+    ["id", "name", "status", "color", "created_at"],
+    [project],
+  );
+  console.log(chalk.bgCyan("Tasks:"));
+
+  generateTable(
+    "t",
+    [
+      "id",
+      "project Id",
+      "title",
+      "status",
+      "priority",
+      "due date",
+      "created_at",
+      "done_at",
+    ],
+    tasks,
+  );
+}
