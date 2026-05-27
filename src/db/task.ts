@@ -1,4 +1,4 @@
-import { db } from "./db";
+import { db } from "./sqlite";
 import { execute, fetchAll, fetchFirst } from "./utils";
 
 //CREATE TASK / ADD TO PROJECT

@@ -22,12 +22,17 @@ import {
 } from "./commands/task-controller.ts";
 import chalk from "chalk";
 import { confirm } from "@inquirer/prompts";
+import { db } from "./db/sqlite.ts";
+import ora from "ora";
 
 const main = defineCommand({
   meta: {
     name: "TODOALL",
     version: "0.0.1",
     description: "A simple TODO app to manage your projects from the terminal",
+  },
+  setup() {
+    db;
   },
   subCommands: {
     newp: defineCommand({

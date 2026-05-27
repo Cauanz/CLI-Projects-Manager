@@ -1,4 +1,4 @@
-import { db } from "./db";
+import { db } from "./sqlite";
 import { execute, fetchFirst } from "./utils";
 
 type projectData = {
