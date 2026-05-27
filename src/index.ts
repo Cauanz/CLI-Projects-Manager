@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import { defineCommand, runMain } from "citty";
-import { drawWelcome } from "./ui/welcome.ts";
 import {
   createProject,
   editProject,
@@ -28,10 +27,7 @@ const main = defineCommand({
   meta: {
     name: "TODOALL",
     version: "0.0.1",
-    description: "A simple TODO app to manage your projects",
-  },
-  run() {
-    drawWelcome();
+    description: "A simple TODO app to manage your projects from the terminal",
   },
   subCommands: {
     newp: defineCommand({

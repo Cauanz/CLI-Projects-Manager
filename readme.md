@@ -32,12 +32,18 @@ npm install
 ### Run the App
 
 ```bash
+#No build
 npm start
+
+#If built
+npm run build
+npm link
+clitodo <command>
 ```
 
 ## Usage
 
-Examples (replace with the exact commands from your app):
+Examples:
 
 ```bash
 
@@ -86,6 +92,7 @@ CLI-todo/
 
 - `npm start` — Runs the CLI app
 - `npm run dev` — Runs in development mode
+- `npm build` — Builds the project
 
 ## Contributing
 
