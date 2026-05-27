@@ -1,4 +1,13 @@
-# CLI Todo App
+```text
+ _______ _____  ____   ____   ___    _   _  _     _
+|__   __|_   _|/ __ \ / __ \ / _ \  | \ | || |   | |
+  | |    | | | |  | | |  | | | | | |  \| || |   | |
+  | |    | | | |  | | |  | | | | | | . ` || |   | |
+  | |   _| |_| |__| | |__| | |_| | | |\  || |___| |____
+  |_|  |_____|\____/ \____/ \___/  |_| \_||______|______|
+```
+
+# TODOALL
 
 A simple command-line Todo application to manage daily tasks quickly and efficiently.
 
@@ -8,12 +17,16 @@ A simple command-line Todo application to manage daily tasks quickly and efficie
 - List all tasks
 - Mark tasks as completed
 - Remove tasks
-- Persistent local storage (if implemented in the project)
+- Persistent local storage
 
 ## Tech Stack
 
 - Runtime: Node.js
-- Language: JavaScript (or TypeScript, if applicable)
+- Language: JavaScript/TypeScript
+- Storage: SQLite (using `sqlite3` package)
+- CLI Framework: Citty (using `citty` package)
+- Other dependencies: `chalk` for colored output, `ora` for loading spinners, `cli-table3` for formatted tables, `inquirer` for interactive prompts, `tsdown` for TypeScript support and bundling, `figlet` for ASCII art, `chrono-node` for natural language date parsing, `date-fns` for date manipulation and `dayjs` for date formatting
+  _Not all packages have been used yet, but I plan to use all of them in the future!_
 
 ## Getting Started
 
@@ -48,10 +61,10 @@ Examples:
 ```bash
 
 #Add a new project
-todo newp "<My Project> <color>"
+todo newp MyProject <color>
 
 # Add a task
-todo add "Study_JavaScript 1 week"
+todo add Study_JavaScript 1 week
 # *I still haven't implemented a way to write the title and the due date separately, so you have to write the title together like this. I will fix this in the future.
 
 # Edit a task
@@ -84,6 +97,10 @@ todo removep
 ```text
 CLI-todo/
 ├─ src/
+|  ├─ commands/
+|  ├─ db/
+|  ├─ ui/
+|  ├─ index.ts
 ├─ package.json
 └─ readme.md
 ```
